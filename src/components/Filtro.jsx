@@ -2,48 +2,54 @@ import React, {useState, useEffect} from 'react';
 import Axios from 'axios'
 
 const Filtro = () => {  //montando o componenete
-    const [lista, setLista] = useState([]) //guarda as informações e atualiza
-    const [pesquisa, setPesquisa] = useState('') // usa para filtra os estados
-    const [filtrosEstados, setfiltrosEstados] = useState([]) 
+    const [alunos, setAlunos] = useState([]) //guarda as informações e atualiza
+    const [pesquisaAluno, setPesquisaAluno] = useState('') // usa para filtra os alunos
+    const [pesquisaCasa, setPesquisaCasa] = useState('') 
+    const [filtrosAlunos, setFiltrosAlunos] = useState([]) 
 
     useEffect(() => {
-        todosEstados()
+        todosAlunos()
     }, [])
 
-    useEffect(() => {
-        setfiltrosEstados(
-            lista.filter(e => {
-                return e.nome.includes(pesquisa)
-            }
-                
-            )
+    useEffect(() => {  //mostra o que ta dentro daqui primeiro?!
+        setFiltrosAlunos(
+            alunos.filter(e => {
+                return e.name.toLowerCase().includes(pesquisaAluno.toLowerCase())
+            })
         )
-        console.log(pesquisa);
-    },[pesquisa, lista])                                       //recupero toda vez que é chamada
+        //console.log(pesquisaAluno);
+    },[pesquisaAluno, alunos])      
+    
+    useEffect(() => {
+        setFiltrosAlunos(
+            alunos.filter(e => {
+                return e.house.toLowerCase().includes(pesquisaCasa.toLowerCase())
+            })
+        )
+        console.log(pesquisaAluno);
+    },[pesquisaCasa, alunos])    //recupero toda vez que é chamada
 
-    const todosEstados = async () => {
-        const estados  = await Axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados') 
-        console.log(estados.data);
-        setLista(estados.data)
-    }
-
-    const estadosBr = async () =>{
-        const estados = await Axios.get('http://servicodados.ibge.gov.br/api/v3/malhas/estados/{id} ')
-        const lista = await estados.SE
-        console.log(lista);
+    const todosAlunos = async () => {
+        const estados  = await Axios.get('http://hp-api.herokuapp.com/api/characters') 
+        setAlunos(estados.data)
     }
     
     return (
         <div>
-            <h1>Ola mundo</h1>
-
-            <input onChange={e => {setPesquisa(e.target.value)}} placeholder="Digite o estado"/>
-            <button onClick={estadosBr}>
-                Buscar UF
-            </button>
+        
+            <input onChange={e => {setPesquisaAluno(e.target.value)}} placeholder="Digite o nome Aluno"/>
+            <input onChange={e => {setPesquisaCasa(e.target.value)}} placeholder="Digite a casa Aluno"/>
             <ul>
-            {filtrosEstados.map(item => (
-                <li><a key={item.id} href="#">{item.nome}</a></li>
+            {filtrosAlunos.map(item => (
+                <li  key={item.name}>
+                    Nome: {item.name}<br />
+                    Casa: {(item.house.length > 0) ? item.house : 'Sem Casa'}<br />
+                    Especies: {item.species}
+
+
+                <br/>
+                    <img src={item.image} width="200px" height="200px" alt={item.name}/>
+                </li>
             ))}
             </ul>
         </div>
