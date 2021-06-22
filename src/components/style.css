@@ -1,0 +1,31 @@
+.primeira-div{
+    text-align: center;
+    background-image: url(https://i.pinimg.com/originals/38/cf/40/38cf401e15fb714cf2ecf1284bdcdd02.jpg);
+    width: 100%;
+    height: 100%;
+    background-position: top center;
+    background-size: cover;
+}
+
+h1{
+    text-align: center;
+    margin-left: 20px;
+    
+}
+
+.pesquisa-nome, .pesquisa-casa {
+    padding: 2px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+li {
+    list-style-type: none;
+    padding:20px;
+} 
+
+img:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
